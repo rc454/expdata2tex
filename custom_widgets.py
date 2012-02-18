@@ -12,12 +12,17 @@ class HighlightTextLineEdit(Qt.QTextEdit):
 		self.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 		
 		self.setTabChangesFocus(True) # So we dont insert a tab character
+		self.setFocusPolicy(QtCore.Qt.StrongFocus)
 		
 		fontm = Qt.QFontMetrics(self.font()) # The font metrics
 		self.setToolTip("Press <b>Ctrl+U</b> to highlight portion")
 		# Size isnt set, so that it occupies the cell.
 		
+		
 	def keyPressEvent(self, event):
+		if event.key() in (QtCore.Qt.Key_Enter, QtCore.Qt.Key_Return):
+			self.emit(QtCore.SIGNAL("returnPressed()"))
+			event.accept()
 		if event.modifiers() & QtCore.Qt.ControlModifier:
 			event_handled = False
 			if event.key() == QtCore.Qt.Key_U:
@@ -26,9 +31,7 @@ class HighlightTextLineEdit(Qt.QTextEdit):
 			if event_handled:
 				event.accept()
 				return
-		if event.key() in (QtCore.Qt.Key_Enter, QtCore.Qt.Key_Return):
-			self.emit(QtCore.SIGNAL("returnPressed()"))			
-			event.accept()
+
 		else:
 			QtGui.QTextEdit.keyPressEvent(self, event)
 	

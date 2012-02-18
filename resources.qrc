@@ -1,0 +1,22 @@
+<RCC>
+  <qresource prefix="/images">
+    <file>images/window_icon.svg</file>
+    <file>images/edit_delete.svg</file>
+    <file>images/application_exit.svg</file>
+    <file>images/edit_add.svg</file>
+    <file>images/edit_copy.svg</file>
+    <file>images/document_properties.svg</file>
+    <file>images/filenew.svg</file>
+    <file>images/compfile.svg</file>
+    <file>images/contents.svg</file>
+    <file>images/edit_add.svg</file>
+    <file>images/document_open.svg</file>
+    <file>images/document_save.svg</file>
+    <file>images/document_save_as.svg</file>
+    <file>images/make_kdevelop.svg</file>
+    <file>images/remove.svg</file>
+    <file>images/text_bold.svg</file>
+    <file>images/text_italic.svg</file>
+    <file>images/text_under.svg</file>
+  </qresource>
+</RCC>

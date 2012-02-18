@@ -1,9 +1,29 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+# A simple GUI that emits experimental data as LaTeX
+# Copyright (C) 2011 Russell Currie
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# Please see the documentation under ./documentation/help.pdf
+
+# To run, please run main.py
+
+# You will need PyQt4, Qt4 and Python.
+
+# Have Fun.
 
 """The UI"""
-__version__ = "0.0.01"
+__version__ = "0.0.02"
 
 
 import os,sys, csv
@@ -74,6 +94,7 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		self.save_path = os.path.join(os.getcwd(), '.tmp')
 		self.save_filename = os.path.join(self.save_path, 'data.db')
 		
+		
 		#global all_Data
 		self.all_Data = data_classes.mother()
 		
@@ -91,6 +112,7 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		self.ui.actionAbout.triggered.connect(self.about)
 		
 		self.fileNew() # Start with a new file
+		
 	def about(self):
 		QtGui.QMessageBox.about(self, 'About', 'expdata2tex: Converts experimental data to LaTex. See documentation (F1) for full information')
 	def openHelp(self):
@@ -112,6 +134,9 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		self.ui.tableWidget_carbon.setRowCount(1)
 		self.ui.tableWidget_proton.setRowCount(1)
 		self.set_table_widget()
+		# Set the window title to a new file
+		self.setWindowTitle('%s' %('Experimental Data to Latex (expdata2tex): ' + 'Untitled'))
+		
 	def rsave(self):
 		if os.path.isdir(self.save_path)==False:
 			os.makedirs(self.save_path)
@@ -143,7 +168,10 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 				f.write(obj.toString())
 				f.write('\n')
 		f.close()
-				
+		
+		# Update the title
+		self.update_title()
+		
 	def save_data(self): # Change from this to XML
 		if os.path.isdir(self.save_path)==False:
 			os.makedirs(self.save_path)
@@ -152,6 +180,9 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		print 'savedata filename', self.save_filename
 		#s.close()
 		self.rsave()
+	def update_title(self):
+		# Updates the window title
+		self.setWindowTitle('%s' %('Experimental Data to Latex (expdata2tex): ' + os.path.split(self.save_filename)[-1]))
 	def save_as(self):
 		fname = unicode(QtGui.QFileDialog.getSaveFileName(self, "SaveAs ", self.save_filename, "Any File (*.*)"))
 		self.save_filename = fname
@@ -161,6 +192,7 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 	def load_data(self):
 		self.all_Data = self.load_file()
 		self.update_gui()
+		self.update_title()
 	def load_file(self):
 		self.fileNew()
 		fname = unicode(QtGui.QFileDialog.getOpenFileName(self, "Open ", self.save_filename, "Any File (*.*)"))
@@ -307,7 +339,7 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 			output_string += 'IR'
 			for item in self.all_Data._data_IR:
 				output_string += ' %s, (%s),' %item
-				output_string = output_string[:-1] + '; '
+			output_string = output_string[:-1] + '; '
 		
 		# The Proton stuff
 		if self.all_Data._proton_data.isEmpty() == False:

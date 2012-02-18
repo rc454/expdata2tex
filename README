@@ -18,3 +18,15 @@ To run, please run main.py
 You will need PyQt4, Qt4 and Python.
 
 Have Fun.
+
+
+### 0.0.2 Changes ###
+
+* Added a window icon.
+
+# Bug Fixes #
+
+* Semicolons were appearing as seperators for IR. Now corrected.
+* Numbers that follow bonds are now enclosed in math environments $...$
+* '-' and '=' are now turned into bonds. For the most part, this fixes some errors.
+* Added the filename to the window title on new or load
