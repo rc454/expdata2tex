@@ -30,3 +30,8 @@ Have Fun.
 * Numbers that follow bonds are now enclosed in math environments $...$
 * '-' and '=' are now turned into bonds. For the most part, this fixes some errors.
 * Added the filename to the window title on new or load
+
+# To Do #
+
+* xdg and platforms
+* open dialogue overwrites window
