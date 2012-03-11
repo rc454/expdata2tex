@@ -23,7 +23,7 @@
 # Have Fun.
 
 """The UI"""
-__version__ = "0.0.02"
+__version__ = "0.0.03"
 
 
 import os,sys, csv
@@ -81,8 +81,8 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 	# Create the mother object for data storage
 	save_path=''
 	save_filename=''
-	nmr_solvents = {'Chloroform-d1':'CDCl3', 'Acetic Acid-d4': 'AcOD-d4', 'Acetone-d6': 'Me2C=O-d6', 'Acetonitrile-d3': 'MeCN-d6', 'Bensene-d6': 'C6D6', 'DCM-d2': 'CD2Cl2', 'DMF-d7': 'DMF-d7', 'DMSO-d6': 'DMSO-d6', 'Ethanol-d6': 'EtOD-d6', 'Methanol-d4': 'MeOD-d4', 'Nitromethane-d3': 'MeNO2-d3', 'Pyridine-d5': 'C5D5N', 'TFA-d1': 'CF3COOD', 'THF-d8': 'THF-d8', 'Toluene-d8': 'PhMe-d8', 'Trifluoroethanol-d3': 'CF3CH22OD', 'Water-d2': 'D2O'}
-	nmr_solvent_index = ['Chloroform-d1', 'Acetic Acid-d4', 'Acetone-d6', 'Acetonitrile-d3', 'Bensene-d6', 'DCM-d2', 'DMF-d7', 'DMSO-d6', 'Ethanol-d6', 'Methanol-d4', 'Nitromethane-d3', 'Pyridine-d5', 'TFA-d1', 'THF-d8', 'Toluene-d8', 'Trifluoroethanol-d3', 'Water-d2']
+	nmr_solvents = {'Chloroform-d1':'CDCl3', 'Acetic Acid-d4': 'AcOD-d4', 'Acetone-d6': 'Me2C=O-d6', 'Acetonitrile-d3': 'MeCN-d6', 'Benzene-d6': 'C6D6', 'DCM-d2': 'CD2Cl2', 'DMF-d7': 'DMF-d7', 'DMSO-d6': 'DMSO-d6', 'Ethanol-d6': 'EtOD-d6', 'Methanol-d4': 'MeOD-d4', 'Nitromethane-d3': 'MeNO2-d3', 'Pyridine-d5': 'C5D5N', 'TFA-d1': 'CF3COOD', 'THF-d8': 'THF-d8', 'Toluene-d8': 'PhMe-d8', 'Trifluoroethanol-d3': 'CF3CH22OD', 'Water-d2': 'D2O'}
+	nmr_solvent_index = ['Chloroform-d1', 'Acetic Acid-d4', 'Acetone-d6', 'Acetonitrile-d3', 'Benzene-d6', 'DCM-d2', 'DMF-d7', 'DMSO-d6', 'Ethanol-d6', 'Methanol-d4', 'Nitromethane-d3', 'Pyridine-d5', 'TFA-d1', 'THF-d8', 'Toluene-d8', 'Trifluoroethanol-d3', 'Water-d2']
 	def __init__(self):
 		QtGui.QMainWindow.__init__(self)
 
@@ -116,7 +116,13 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 	def about(self):
 		QtGui.QMessageBox.about(self, 'About', 'expdata2tex: Converts experimental data to LaTex. See documentation (F1) for full information')
 	def openHelp(self):
-		os.system('/usr/bin/xdg-open ./documentation/help.pdf') 
+		helpfile = os.path.join('.', 'documentation', 'help.pdf')
+		if sys.platform.startswith('darwin'):
+			os.system('open %s' %helpfile)
+		elif sys.platform.startswith('linux'):
+			os.system('xdg-open %s' %helpfile)
+		elif sys.platform.startswith('win32'):
+			os.system('start %s' %helpfile)
 	def set_table_widget(self):
 		# Make the far right cell into a highlighttextlineedit
 		self.ui.tableWidget_proton.setCellWidget((self.ui.tableWidget_proton.rowCount()-1), 4,
@@ -194,30 +200,29 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		self.update_gui()
 		self.update_title()
 	def load_file(self):
-		self.fileNew()
 		fname = unicode(QtGui.QFileDialog.getOpenFileName(self, "Open ", self.save_filename, "Any File (*.*)"))
-		
-		self.save_filename = fname
-		f = open(self.save_filename, 'rb')
-		data_lines = f.readlines()
-		f.close()
-		for line in data_lines:
-			line=line.strip('\n') # Remove the newlines
+		if fname != u'':
+			self.save_filename = fname
+			f = open(self.save_filename, 'rb')
+			data_lines = f.readlines()
+			f.close()
+			for line in data_lines:
+				line=line.strip('\n') # Remove the newlines
 
-			if line[:10] == '++++AD++++':
-				(_rotation, _concentration, _solvent) = tuple(line[10:].split(','))
-				self.all_Data._AD.insert(_rotation, _concentration, _solvent)
-			if line[:10] == '++++IR++++':
-				self.all_Data._data_IR.fromString(line[10:])
-			if line[:13] == '++++HINFO++++':
-				(self.all_Data._proton_specinfo.proton_frequency, self.all_Data._proton_specinfo.proton_solvent) = tuple(line[13:].split(','))
-			if line[:13] =='++++HDATA++++':
-				self.all_Data._proton_data.fromString(line[13:]) # Need to sort out identity column
-			if line[:13] == '++++CINFO++++':
-				(self.all_Data._carbon_specinfo.carbon_frequency, self.all_Data._carbon_specinfo.carbon_solvent) = tuple(line[13:].split(','))
-			if line[:13] =='++++CDATA++++':
-				self.all_Data._carbon_data.fromString(line[13:]) # Need to sort out identity column
-		self.update_gui()
+				if line[:10] == '++++AD++++':
+					(_rotation, _concentration, _solvent) = tuple(line[10:].split(','))
+					self.all_Data._AD.insert(_rotation, _concentration, _solvent)
+				if line[:10] == '++++IR++++':
+					self.all_Data._data_IR.fromString(line[10:])
+				if line[:13] == '++++HINFO++++':
+					(self.all_Data._proton_specinfo.proton_frequency, self.all_Data._proton_specinfo.proton_solvent) = tuple(line[13:].split(','))
+				if line[:13] =='++++HDATA++++':
+					self.all_Data._proton_data.fromString(line[13:]) # Need to sort out identity column
+				if line[:13] == '++++CINFO++++':
+					(self.all_Data._carbon_specinfo.carbon_frequency, self.all_Data._carbon_specinfo.carbon_solvent) = tuple(line[13:].split(','))
+				if line[:13] =='++++CDATA++++':
+					self.all_Data._carbon_data.fromString(line[13:]) # Need to sort out identity column
+			self.update_gui()
 		
 		
 		return self.all_Data
@@ -352,14 +357,14 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 					output_string += ' $\\delta$~%s (%sH, %s, %s)' %(a, b, c, e) + ',' 
 				elif (d != '') and (e == '\\ce{}}'):
 					output_string += ' $\\delta$~%s (%sH, %s, \JNMR{%s})' %(a, b, c, d) + ',' 
-				output_string = output_string[:-1]+'; '
+			output_string = output_string[:-1]+'; '
 		
 		# The Carbon stuff
 		if self.all_Data._carbon_data.isEmpty() == False:
 			output_string += '\\CNMR NMR (%s \mega\hertz, \ce{%s}, 300 K)' %(self.all_Data._carbon_specinfo.carbon_frequency, self.nmr_solvents[str(self.all_Data._carbon_specinfo.carbon_solvent)])
 			for item in self.all_Data._carbon_data:
 				output_string += ' $\\delta$~%s (%s)' %(item[0], text_processing.description_to_tex(text_processing.to_sensible_html(item[1]))) + ','
-			output_string = output_string[:-1]+'.'
+		output_string = output_string[:-1]+'.'
 		return output_string
 
 	def compile_to_tex(self):

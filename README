@@ -19,6 +19,17 @@ You will need PyQt4, Qt4 and Python.
 
 Have Fun.
 
+### 0.0.3 Changes ###
+
+# Bug Fixes #
+* Benzene as a NMR solvent now working.
+* Semicolons as seperators in HNMR now fixed.
+* '.' Now ends the data.
+* open dialogue overwrites window bug fixed.
+* Help (F1) is now platform specific
+
+# To Do #
+* find more bugs
 
 ### 0.0.2 Changes ###
 
@@ -31,7 +42,4 @@ Have Fun.
 * '-' and '=' are now turned into bonds. For the most part, this fixes some errors.
 * Added the filename to the window title on new or load
 
-# To Do #
 
-* xdg and platforms
-* open dialogue overwrites window
