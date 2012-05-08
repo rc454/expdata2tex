@@ -19,6 +19,20 @@ You will need PyQt4, Qt4 and Python.
 
 Have Fun.
 
+### To Do ###
+* Tidy code, trim repetitve portions of code.
+* Bug hunting
+* Change name on saveas
+
+### 0.0.4 Changes ###
+* Support for more complex formatting
+	- ' is now supported to add primes to numbers
+	- / is now supported to seperate numbers
+	- Spaces are now retained
+	- "and" is now supported, with spaces (\: a medium space)
+* Fixed -- comma seperator in IR appearing between wavenumber and strength.
+* Fixed -- Optical rotation value now appears in mathmode.
+
 ### 0.0.3 Changes ###
 
 # Bug Fixes #
@@ -28,8 +42,6 @@ Have Fun.
 * open dialogue overwrites window bug fixed.
 * Help (F1) is now platform specific
 
-# To Do #
-* find more bugs
 
 ### 0.0.2 Changes ###
 

@@ -23,10 +23,10 @@
 # Have Fun.
 
 """The UI"""
-__version__ = "0.0.03"
+__version__ = "0.0.04"
 
 
-import os,sys, csv
+import os, sys
 
 # Import Qt modules
 from PyQt4 import QtCore,QtGui, Qt
@@ -337,13 +337,13 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		output_string = '' # This is the complete string that will be displayed
 		# The AD Stuff
 		if (str(self.all_Data._AD.data[0]) != '0.0') and (str(self.all_Data._AD.data[1]) != '0.0'):
-			output_string +=  '\\alphad = %s (c= %s, \\ce{%s}); ' %(self.all_Data._AD.data[0], self.all_Data._AD.data[1], self.all_Data._AD.data[2])
+			output_string +=  '\\alphad = $%s$ (c= %s, \\ce{%s}); ' %(self.all_Data._AD.data[0], self.all_Data._AD.data[1], self.all_Data._AD.data[2])
 		
 		# The IR Stuff
 		if self.all_Data._data_IR.isEmpty() == False:
 			output_string += 'IR'
 			for item in self.all_Data._data_IR:
-				output_string += ' %s, (%s),' %item
+				output_string += ' %s (%s),' %item
 			output_string = output_string[:-1] + '; '
 		
 		# The Proton stuff
