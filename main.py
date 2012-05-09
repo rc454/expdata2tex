@@ -23,7 +23,7 @@
 # Have Fun.
 
 """The UI"""
-__version__ = "0.0.04"
+__version__ = "0.0.5"
 
 
 import os, sys
@@ -110,6 +110,7 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		self.ui.actionCompile.triggered.connect(self.compile_to_tex)
 		self.ui.actionHelp.triggered.connect(self.openHelp)
 		self.ui.actionAbout.triggered.connect(self.about)
+		self.ui.tableWidget_proton.currentCellChanged.connect(self.count_protons) # Count the number of protons whenever a cell is changed
 		
 		self.fileNew() # Start with a new file
 		
@@ -142,6 +143,9 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		self.set_table_widget()
 		# Set the window title to a new file
 		self.setWindowTitle('%s' %('Experimental Data to Latex (expdata2tex): ' + 'Untitled'))
+		
+		# Count the number of protons, and update 
+		self.count_protons()
 		
 	def rsave(self):
 		if os.path.isdir(self.save_path)==False:
@@ -248,6 +252,9 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		self.ui.comboBox_protonsolvent.setCurrentIndex(self.nmr_solvent_index.index(str(self.all_Data._proton_specinfo.proton_solvent)))
 		self.ui.lineEdit_frequency.setText(QtCore.QString('%s' %self.all_Data._proton_specinfo.proton_frequency))
 		
+		# Count the number of protons, and update 
+		self.count_protons()
+		
 	def update_data(self):
 		# Update the alpha D values
 		self.all_Data._AD.insert(str(self.ui.lineEdit_specificrotation.text()), str(self.ui.lineEdit_concentration.text()), str(self.ui.lineEdit_solvent.text()))
@@ -305,6 +312,16 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 			item4 = self.ui.tableWidget_proton.cellWidget(row, 4)
 			text4 = check_nonetype(item4)
 			self.all_Data._proton_data.add_update(row, str(text0), str(text1), str(text2), str(text3), str(text4).replace('\n',''))
+			
+			
+	def count_protons(self):
+		"""Count the number of protons in the table widget"""
+		proton_count = 0
+		for row in range(0, self.ui.tableWidget_proton.rowCount()):
+			item = self.ui.tableWidget_proton.item(row, 1)
+			if item != None:
+				proton_count += int(self.ui.tableWidget_proton.item(row, 1).text())
+		self.ui.num_protons.setText(str(proton_count))
 
 	def add_row(self):
 		#Check which tab is active, then add a row for that widget

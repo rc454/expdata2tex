@@ -24,6 +24,9 @@ Have Fun.
 * Bug hunting
 * Change name on saveas
 
+### 0.0.5 Changes ###
+* New addition to the UI. Number of protons are counted. This makes it easier to ensure you have the right number of signals.
+
 ### 0.0.4 Changes ###
 * Support for more complex formatting
 	- ' is now supported to add primes to numbers

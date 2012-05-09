@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './window.ui'
 #
-# Created: Mon Jan 16 22:56:20 2012
+# Created: Wed May  9 11:19:10 2012
 #      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -63,6 +63,12 @@ class Ui_MainWindow(object):
         self.comboBox_protonsolvent.addItem("")
         self.comboBox_protonsolvent.addItem("")
         self.horizontalLayout.addWidget(self.comboBox_protonsolvent)
+        self.label = QtGui.QLabel(self.Proton_tab)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.num_protons = QtGui.QLabel(self.Proton_tab)
+        self.num_protons.setObjectName("num_protons")
+        self.horizontalLayout.addWidget(self.num_protons)
         spacerItem = QtGui.QSpacerItem(68, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -334,6 +340,12 @@ class Ui_MainWindow(object):
         self.comboBox_protonsolvent.setItemText(14, QtGui.QApplication.translate("MainWindow", "Toluene-d8", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox_protonsolvent.setItemText(15, QtGui.QApplication.translate("MainWindow", "Trifluoroethanol-d3", None, QtGui.QApplication.UnicodeUTF8))
         self.comboBox_protonsolvent.setItemText(16, QtGui.QApplication.translate("MainWindow", "Water-d2", None, QtGui.QApplication.UnicodeUTF8))
+        self.label.setText(QtGui.QApplication.translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Σ <span style=\" vertical-align:super;\">1</span>H:</p></body></html>", None, QtGui.QApplication.UnicodeUTF8))
+        self.num_protons.setText(QtGui.QApplication.translate("MainWindow", "0", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget_proton.horizontalHeaderItem(0).setText(QtGui.QApplication.translate("MainWindow", "Shift", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget_proton.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", "Protons", None, QtGui.QApplication.UnicodeUTF8))
         self.tableWidget_proton.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("MainWindow", "Multiplicity", None, QtGui.QApplication.UnicodeUTF8))

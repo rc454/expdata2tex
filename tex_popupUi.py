@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file './tex_popup.ui'
 #
-# Created: Mon Jan 16 22:56:20 2012
+# Created: Wed May  9 11:19:11 2012
 #      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
