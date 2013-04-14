@@ -12,7 +12,11 @@ def to_sensible_html(string):
 def description_to_tex(string):
 	remove_start_p = re.compile(r'\[<p\](.*?)\[</p>\]') # Needs to be first match of >
 	new_string = string[(string.find('>')+1):string.rfind('</p>')]
-	c = new_string.replace('<span style=\" text-decoration: underline;\">', ' $\\underbar{').replace('</span>','}')
+	
+	# replace '<span style=\" text-decoration: underline;\">'
+	c= re.sub(r'<(span).*?>', ' $\\underbar{', new_string, count=0)
+	# replace the close span
+	c= re.sub(r'</span>', '}', c, count=0)
 	string_out=''
 	
 	# Replace spaces with \: -- lets you add words now
@@ -25,7 +29,7 @@ def description_to_tex(string):
 	c = spaces.sub('\g<1>\\: ',c) # Substitute spaces with the letter before the space and "\:"
 	# Now do the ands
 	c = c.replace('and ', 'and\\: ')
-		
+	c = c.replace('or ', 'or\\: ')		
 	for segment in c.split('}'):# replace the }'s depending on the next character
 		if segment == '': # If its at the end of the string, it causes trouble
 			string_out += '}$ '

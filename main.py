@@ -394,7 +394,7 @@ class Main(QtGui.QMainWindow, Ui_MainWindow):
 		self.dialog.exec_()
 		
 	def exit(self):
-		sys.exit(1)
+		sys.exit(0)
 
 def main():
 
