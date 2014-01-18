@@ -3,8 +3,7 @@
 import re
 
 def to_sensible_html(string):
-	remove_newlines = re.compile(r'\n')
-	newstring = remove_newlines.sub('', string)
+	newstring = re.sub(r'\n', '', string)
 	regexp = re.compile(r'<p.*>.*</p>')
 	matchobj = regexp.search(newstring)
 	return newstring[matchobj.start():matchobj.end()]
@@ -14,9 +13,9 @@ def description_to_tex(string):
 	new_string = string[(string.find('>')+1):string.rfind('</p>')]
 	
 	# replace '<span style=\" text-decoration: underline;\">'
-	c= re.sub(r'<(span).*?>', ' $\\underbar{', new_string, count=0)
-	# replace the close span
-	c= re.sub(r'</span>', '}', c, count=0)
+	c = re.sub(r'<(span).*?(underline).*?>(?P<underlined>.*?)</span>', r' $\\underbar{\g<underlined>}', new_string, count=0)
+	# rid ourselves of the non underline spans <span style=" font-family:'Sans Serif';">
+	c = re.sub(r'<(span).*?>(?P<text>.*?)</span>', r' \g<text>', c, count=0)
 	string_out=''
 	
 	# Replace spaces with \: -- lets you add words now
